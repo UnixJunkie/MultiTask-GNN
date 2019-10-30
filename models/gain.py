@@ -40,11 +40,11 @@ class GINAttNet(torch.nn.Module):
     def __init__(self, n_features, n_outputs, dim=95):
         super(GINAttNet, self).__init__()
         # Preparation of the Graph Isomorphism Convolutional Layer
-        nn1 = Seq(Linear(dim, dim), ReLU(), Linear(dim, dim))
+        nn1 = Seq(Linear(n_features, dim), ReLU(), Linear(dim, dim))
         self.conv1 = GINConv(nn1)
         self.bn1 = torch.nn.BatchNorm1d(dim)
         # Preparation of the Attention Layer
-        self.conv2 = GATConv(n_features, dim, heads=1, dropout=0.3)
+        self.conv2 = GATConv(dim, dim, heads=1, dropout=0.3)
         # Preparation of the Fully Connected Layer
         self.fc1 = Linear(dim, 2*dim)
         self.fc2 = Linear(2*dim, n_outputs)
